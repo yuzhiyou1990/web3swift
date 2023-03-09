@@ -168,3 +168,12 @@ extension EthereumAddress: CustomStringConvertible {
         return toReturn
     }
 }
+
+// MARK: - Create2
+
+extension EthereumAddress {
+    public static func create2(_ version: Data = Data(hex: "ff"), factory: EthereumAddress, salt: Data, initCodeHash: Data) -> EthereumAddress? {
+        let addressData = (version + factory.addressData + salt + initCodeHash).sha3(.keccak256).suffix(20)
+        return EthereumAddress(addressData)
+    }
+}

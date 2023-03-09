@@ -23,6 +23,30 @@ class ABIEncoderTest: XCTestCase {
         XCTAssertEqual(ABIEncoder.encodeSingleType(type: .uint(bits: 32), value: -10 as AnyObject), nil)
         XCTAssertEqual(ABIEncoder.encodeSingleType(type: .uint(bits: 32), value: 10 as AnyObject)?.toHexString(), "000000000000000000000000000000000000000000000000000000000000000a")
     }
+    
+    func testEncodeAndEncodePacked() {
+        let initCode = ABIEncoder.encodePacked(types: [.dynamicBytes, .dynamicBytes], values: [
+            "0x112233",
+            ABIEncoder.encode(
+                types: [
+                    .address,
+                    .dynamicBytes
+                ],
+                values: [
+                    EthereumAddress("0x0dD339f20B6661BA9fac8629CD6C8Ecc0cA8D304")!,
+                    ABIEncoder.encodeCall(
+                        name: "initialize",
+                        types: [
+                            .address
+                        ],
+                        values: [
+                            EthereumAddress("0x4d4e47f4a0556fec5c2413ad47d58f46336f63d1")!
+                        ]
+                    )!
+                ] as! [Any])!
+        ] as! [Any])
+        XCTAssertEqual("1122330000000000000000000000000dd339f20b6661ba9fac8629cd6c8ecc0ca8d30400000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000024c4d66de80000000000000000000000004d4e47f4a0556fec5c2413ad47d58f46336f63d100000000000000000000000000000000000000000000000000000000", initCode?.toHexString())
+    }
 
     func testSoliditySha3() throws {
         var hex = try ABIEncoder.soliditySha3(true).toHexString().addHexPrefix()
