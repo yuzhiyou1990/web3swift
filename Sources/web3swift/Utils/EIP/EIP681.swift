@@ -366,7 +366,7 @@ extension Web3 {
                 case .ensAddress(let ens):
                     guard let chainID = chainID else { return nil }
                     do {
-                        let web = await Web3(provider: InfuraProvider(.fromInt(UInt(chainID)))!)
+                        let web = try await Web3(provider: InfuraProvider(net: .fromInt(UInt(chainID))))
                         let ensModel = ENS(web3: web)
                         try await ensModel?.setENSResolver(withDomain: ens)
                         let address = try await ensModel?.getAddress(forNode: ens)
