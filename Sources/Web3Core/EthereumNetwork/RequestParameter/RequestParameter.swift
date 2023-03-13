@@ -36,7 +36,7 @@ import Foundation
 /// print(String(data: encoded, encoding: .utf8)!)
 /// //> [12,\"this\",12.2,[12.2,12.4]]`
 /// ```
-enum RequestParameter {
+public enum RequestParameter {
     case int(Int)
     case intArray([Int])
 

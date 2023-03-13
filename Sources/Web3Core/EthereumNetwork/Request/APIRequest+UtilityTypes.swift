@@ -14,12 +14,12 @@ public struct APIResponse<Result>: Decodable where Result: APIResultType {
     public var result: Result
 }
 
-enum REST: String {
+public enum REST: String {
     case POST
     case GET
 }
 
-struct RequestBody: Encodable {
+public struct RequestBody: Encodable {
     var jsonrpc = "2.0"
     var id = Counter.increment()
 

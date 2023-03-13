@@ -8,7 +8,7 @@
 import Foundation
 
 extension APIRequest {
-    var method: REST {
+    public var method: REST {
          .POST
     }
 
@@ -19,7 +19,7 @@ extension APIRequest {
         return try! JSONEncoder().encode(request)
     }
 
-    var parameters: [RequestParameter] {
+    public var parameters: [RequestParameter] {
         switch self {
         case .gasPrice, .blockNumber, .getNetwork, .getAccounts, .getTxPoolStatus, .getTxPoolContent:
             return [RequestParameter]()
