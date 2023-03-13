@@ -21,7 +21,7 @@ extension String: APIResultType { }
 /// More than that their notation (e.g. 0x12d) are don't fit with the default Numeric decoders behaviours.
 /// So to work around that for generic cases we're going to force decode `APIResponse.result` field as `String`
 /// and then initiate it
-protocol LiteralInitiableFromString: APIResultType {
+public protocol LiteralInitiableFromString: APIResultType {
     init?(from hexString: String)
 }
 
