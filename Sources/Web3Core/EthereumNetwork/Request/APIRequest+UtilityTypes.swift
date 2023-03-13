@@ -13,7 +13,7 @@ public struct APIResponse<Result>: Decodable where Result: APIResultType {
     public var jsonrpc = "2.0"
     public var result: Result
     
-    init(id: Int, jsonrpc: String = "2.0", result: Result) {
+    public init(id: Int, jsonrpc: String = "2.0", result: Result) {
         self.id = id
         self.jsonrpc = jsonrpc
         self.result = result
