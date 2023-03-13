@@ -25,7 +25,7 @@ public protocol LiteralInitiableFromString: APIResultType {
     init?(from hexString: String)
 }
 
-extension LiteralInitiableFromString where Self: IntegerInitableWithRadix {
+public extension LiteralInitiableFromString where Self: IntegerInitableWithRadix {
     /// This initializer is intended to init `(U)Int` from hex string with `0x` prefix.
     init?(from hexString: String) {
         guard hexString.hasPrefix("0x") else { return nil }
