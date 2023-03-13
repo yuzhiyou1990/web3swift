@@ -26,7 +26,7 @@ class ABIEncoderTest: XCTestCase {
     func testContractCreatePacked() {
         let sender = EthereumAddress("0xBF85582f17e04E7E37EeEBBd8e7c993587F58932")!
         let address = EthereumAddress.create(sender: sender, nonce: BigUInt(1))
-        XCTAssert("0x8E469c85A587D615bF483691976D792c2749E474" == address?.address)
+        XCTAssert("0x8E469c85A587D615bF483691976D792c2749E474" == address.address)
     }
     
     func testEncodeAndEncodePacked() {
@@ -46,7 +46,7 @@ class ABIEncoderTest: XCTestCase {
                         .dynamicBytes
                     ],
                     values: [
-                        EthereumAddress.create(sender: factory, nonce: BigUInt(1))!,
+                        EthereumAddress.create(sender: factory, nonce: BigUInt(1)),
                         ABIEncoder.encodeCall(
                             name: "initialize",
                             types: [

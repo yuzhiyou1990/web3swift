@@ -173,11 +173,12 @@ extension EthereumAddress: CustomStringConvertible {
 // MARK: - Create2
 
 extension EthereumAddress {
-    public static func create(sender: EthereumAddress, nonce: BigUInt) -> EthereumAddress? {
-        return EthereumAddress(RLP.encode([sender.addressData, nonce])!.sha3(.keccak256).suffix(20))
+    public static func create(sender: EthereumAddress, nonce: BigUInt) -> EthereumAddress {
+        return EthereumAddress(RLP.encode([sender.addressData, nonce])!.sha3(.keccak256).suffix(20))!
     }
-    public static func create2(_ version: Data = Data(hex: "ff"), factory: EthereumAddress, salt: Data, initCode: Data) -> EthereumAddress? {
+    
+    public static func create2(_ version: Data = Data(hex: "ff"), factory: EthereumAddress, salt: Data, initCode: Data) -> EthereumAddress {
         let addressData = (version + factory.addressData + salt + initCode.sha3(.keccak256)).sha3(.keccak256).suffix(20)
-        return EthereumAddress(addressData)
+        return EthereumAddress(addressData)!
     }
 }
