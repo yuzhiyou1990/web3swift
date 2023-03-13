@@ -63,13 +63,13 @@ extension APIRequest {
 }
 
 /// JSON RPC Error object. See official specification https://www.jsonrpc.org/specification#error_object
-private struct JsonRpcErrorObject: Decodable {
+public struct JsonRpcErrorObject: Decodable {
     public let error: RpcError?
 
-    class RpcError: Decodable {
-        let message: String
-        let code: Int
-        var parsedErrorCode: JsonRpcErrorCode? {
+    public class RpcError: Decodable {
+        public let message: String
+        public let code: Int
+        public var parsedErrorCode: JsonRpcErrorCode? {
             JsonRpcErrorCode.from(code)
         }
     }
@@ -77,7 +77,7 @@ private struct JsonRpcErrorObject: Decodable {
 
 /// For error codes specification see chapter `5.1 Error object`
 /// https://www.jsonrpc.org/specification#error_object
-private enum JsonRpcErrorCode {
+public enum JsonRpcErrorCode {
     /// -32700
     /// Invalid JSON was received by the server. An error occurred on the server while parsing the JSON
     case parseError
@@ -97,7 +97,7 @@ private enum JsonRpcErrorCode {
     /// Reserved for implementation-defined server-errors.
     case serverError(Int)
 
-    var errorName: String {
+    public var errorName: String {
         switch self {
         case .parseError:
             return "Parsing error"
@@ -114,7 +114,7 @@ private enum JsonRpcErrorCode {
         }
     }
 
-    static func from(_ code: Int) -> JsonRpcErrorCode? {
+    public static func from(_ code: Int) -> JsonRpcErrorCode? {
         switch code {
         case -32700:
             return .parseError
