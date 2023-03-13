@@ -25,7 +25,7 @@ extension RequestParameter: Encodable {
     /// //> [12,\"this\",12.2,[12.2,12.4]]`
     /// ```
     /// - Parameter encoder: The encoder to write data to.
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var enumContainer = encoder.singleValueContainer()
         /// force casting in this switch is safe because
         /// each `rawValue` forced to casts only in exact case which is runs based on `rawValue` type

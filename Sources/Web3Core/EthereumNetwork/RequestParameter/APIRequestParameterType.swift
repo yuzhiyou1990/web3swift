@@ -13,7 +13,7 @@ import Foundation
 /// so current implementation of `RequestParameter`s belongs on hardcoded supported types.
 ///
 /// Please see `RequestParameter` documentation for more details.
-protocol APIRequestParameterType: Encodable { }
+public protocol APIRequestParameterType: Encodable { }
 
 extension Int: APIRequestParameterType { }
 
