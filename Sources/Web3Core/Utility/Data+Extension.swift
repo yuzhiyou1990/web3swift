@@ -23,7 +23,7 @@ extension Data {
         }
     }
 
-    func constantTimeComparisonTo(_ other: Data?) -> Bool {
+    public func constantTimeComparisonTo(_ other: Data?) -> Bool {
         guard let rhs = other else {return false}
         guard self.count == rhs.count else {return false}
         var difference = UInt8(0x00)
