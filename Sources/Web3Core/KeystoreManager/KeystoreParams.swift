@@ -79,16 +79,31 @@ public struct KeystoreParamsV3: AbstractKeystoreParams {
     public var crypto: CryptoParamsV3
     public var id: String?
     public var version: Int
-    public var isHDWallet: Bool
-
-    var address: String?
+    public var isHDWallet: Bool = false
+    public var address: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case crypto
+        case id
+        case version
+        case isHDWallet
+        case address
+    }
 
     public init(address ad: String?, crypto cr: CryptoParamsV3, id i: String, version ver: Int) {
         address = ad
         self.crypto = cr
         self.id = i
         self.version = ver
-        self.isHDWallet = false
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.crypto = try container.decode(CryptoParamsV3.self, forKey: .crypto)
+        self.id = try container.decodeIfPresent(String.self, forKey: .id)
+        self.version = try container.decode(Int.self, forKey: .version)
+        self.address = try container.decodeIfPresent(String.self, forKey: .address)
     }
 
 }
