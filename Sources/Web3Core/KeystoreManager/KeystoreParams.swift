@@ -94,7 +94,6 @@ public struct KeystoreParamsV3: AbstractKeystoreParams {
     public var id: String?
     public var version: Int
     public var isHDWallet: Bool = false
-    public var address: String?
     
     enum CodingKeys: String, CodingKey {
         case crypto
