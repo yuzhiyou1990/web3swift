@@ -118,6 +118,6 @@ public struct KeystoreParamsV3: AbstractKeystoreParams {
         self.crypto = try container.decode(CryptoParamsV3.self, forKey: .crypto)
         self.id = try container.decodeIfPresent(String.self, forKey: .id)
         self.version = try container.decode(Int.self, forKey: .version)
-        self.isHDWallet = (try container.decodeIfPresent(String.self, forKey: .isHDWallet)) ?? false
+        self.isHDWallet = (try container.decodeIfPresent(Bool.self, forKey: .isHDWallet)) ?? false
     }
 }
