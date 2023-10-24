@@ -124,6 +124,12 @@ public extension IEth {
 }
 
 public extension IEth {
+    func maxPriorityFeePerGas() async throws -> BigUInt {
+        return try await APIRequest.sendRequest(with: provider, for: .maxPriorityFeePerGas).result
+    }
+}
+
+public extension IEth {
     func feeHistory(blockCount: BigUInt, block: BlockNumber, percentiles: [Double]) async throws -> Oracle.FeeHistory {
         let request = APIRequest.feeHistory(blockCount, block, percentiles)
         return try await APIRequest.sendRequest(with: provider, for: request).result

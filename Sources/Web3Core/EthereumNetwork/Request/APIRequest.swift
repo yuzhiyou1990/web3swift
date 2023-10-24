@@ -192,6 +192,9 @@ public enum APIRequest {
     ///         For each block in the requested range, the transactions will be sorted in ascending order
     ///         by effective tip per gas and the corresponding effective tip for the percentile will be determined, accounting for gas consumed."
     case feeHistory(BigUInt, BlockNumber, [Double])
+    
+    /// Returns maxPriorityFeePerGas
+    case maxPriorityFeePerGas
 
     // MARK: - Personal Ethereum API
     // personal Namespace - https://geth.ethereum.org/docs/rpc/ns-personal
