@@ -96,26 +96,28 @@ public struct KeystoreParamsV3: AbstractKeystoreParams {
     public var isHDWallet: Bool = false
     
     enum CodingKeys: String, CodingKey {
+        case address
         case crypto
         case id
         case version
         case isHDWallet
-        case address
     }
 
-    public init(address ad: String?, crypto cr: CryptoParamsV3, id i: String, version ver: Int) {
-        address = ad
-        self.crypto = cr
-        self.id = i
-        self.version = ver
+    public init(address: String?, crypto: CryptoParamsV3, id: String, version: Int) {
+        self.address = address
+        self.crypto = crypto
+        self.id = id
+        self.version = version
+        self.isHDWallet = false
     }
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
+        self.address = try? container.decodeIfPresent(String.self, forKey: .address)
         self.crypto = try container.decode(CryptoParamsV3.self, forKey: .crypto)
         self.id = try container.decodeIfPresent(String.self, forKey: .id)
         self.version = try container.decode(Int.self, forKey: .version)
-        self.address = try container.decodeIfPresent(String.self, forKey: .address)
+        self.isHDWallet = (try container.decodeIfPresent(Bool.self, forKey: .isHDWallet)) ?? false
     }
 }
