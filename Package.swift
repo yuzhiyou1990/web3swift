@@ -9,7 +9,7 @@ let package = Package(
         .macOS(.v10_15), .iOS(.v13)
     ],
     products: [
-        .library(name: "web3swift", targets: ["web3swift"])
+        .library(name: "web3swift", targets: ["web3swift", "Web3Core"])
     ],
     dependencies: [
         .package(url: "https://github.com/attaswift/BigInt.git", from: "5.3.0"),
