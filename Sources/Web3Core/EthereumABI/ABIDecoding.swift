@@ -169,6 +169,8 @@ extension ABIDecoder {
                     } else {
                         consumed = consumed + consumedUnwrapped
                     }
+                case .string, .dynamicBytes:
+                    consumed = consumedUnwrapped
                 default:
                     consumed = consumed + consumedUnwrapped
                 }
