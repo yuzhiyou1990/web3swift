@@ -193,17 +193,6 @@ public struct ABIEncoder {
         return headsConcatenated + tailsConcatenated
     }
     
-    public static func encodePacked(types: [ABI.Element.ParameterType], values: [Any]) -> Data? {
-        guard types.count == values.count else { return nil }
-        var data = Data()
-        for i in 0 ..< types.count {
-            let enc = encodeSingleType(type: types[i], value: values[i], isPacked: true)
-            guard let encoding = enc else { return nil }
-            data.append(encoding)
-        }
-        return data
-    }
-    
     public static func encodeCall(name: String, types: [ABI.Element.ParameterType], values: [Any]) -> Data? {
         guard let methodHash = "\(name)(\(types.map { "\($0.abiRepresentation)".trim() }.joined(separator: ",")))".data(using: .utf8)?.sha3(.keccak256).subdata(in: 0..<4) else { return nil }
         guard let enc = Self.encode(types: types, values: values) else { return nil }
@@ -234,38 +223,38 @@ public struct ABIEncoder {
     /// - Returns: ABI encoded data, e.g. function call parameters. Returns `nil` if:
     ///     - `types.count != values.count`;
     ///     - encoding has failed (e.g. type mismatch).
-    public static func encodeSingleType(type: ABI.Element.ParameterType, value: Any, isPacked: Bool = false) -> Data? {
+    public static func encodeSingleType(type: ABI.Element.ParameterType, value: Any) -> Data? {
         switch type {
         case .uint(let bits):
             let biguint = convertToBigUInt(value)
-            return biguint == nil ? nil : biguint!.abiEncode(bits: isPacked ? bits : 256)
+            return biguint == nil ? nil : biguint!.abiEncode(bits: 256)
         case .int(let bits):
             let bigint = convertToBigInt(value)
-            return bigint == nil ? nil : bigint!.abiEncode(bits: isPacked ? bits : 256)
+            return bigint == nil ? nil : bigint!.abiEncode(bits: 256)
         case .address:
             if let string = value as? String {
                 guard let address = EthereumAddress(string) else { return nil }
                 let data = address.addressData
-                return isPacked ? data : data.setLengthLeft(32)
+                return data.setLengthLeft(32)
             } else if let address = value as? EthereumAddress {
                 guard address.isValid else {break}
                 let data = address.addressData
-                return isPacked ? data : data.setLengthLeft(32)
+                return data.setLengthLeft(32)
             } else if let data = value as? Data {
-                return isPacked ? data : data.setLengthLeft(32)
+                return data.setLengthLeft(32)
             }
         case .bool:
             if let bool = value as? Bool {
                 if bool {
-                    return BigUInt(1).abiEncode(bits: isPacked ? 1 : 256)
+                    return BigUInt(1).abiEncode(bits: 256)
                 } else {
-                    return BigUInt(0).abiEncode(bits: isPacked ? 1 : 256)
+                    return BigUInt(0).abiEncode(bits: 256)
                 }
             }
         case .bytes(let length):
             guard let data = convertToData(value) else {break}
             if data.count > length {break}
-            return isPacked ? data : data.setLengthRight(32)
+            return data.setLengthRight(32)
         case .string:
             if let string = value as? String {
                 var dataGuess: Data?
@@ -275,22 +264,6 @@ public struct ABIEncoder {
                     dataGuess = string.data(using: .utf8)
                 }
                 guard let data = dataGuess else {break}
-                if isPacked {
-                    return data
-                } else {
-                    let minLength = ((data.count + 31) / 32)*32
-                    guard let paddedData = data.setLengthRight(UInt64(minLength)) else {break}
-                    let length = BigUInt(data.count)
-                    guard let head = length.abiEncode(bits: 256) else {break}
-                    let total = head+paddedData
-                    return total
-                }
-            }
-        case .dynamicBytes:
-            guard let data = convertToData(value) else {break}
-            if isPacked {
-                return data
-            } else {
                 let minLength = ((data.count + 31) / 32)*32
                 guard let paddedData = data.setLengthRight(UInt64(minLength)) else {break}
                 let length = BigUInt(data.count)
@@ -298,8 +271,15 @@ public struct ABIEncoder {
                 let total = head+paddedData
                 return total
             }
+        case .dynamicBytes:
+            guard let data = convertToData(value) else {break}
+            let minLength = ((data.count + 31) / 32)*32
+            guard let paddedData = data.setLengthRight(UInt64(minLength)) else {break}
+            let length = BigUInt(data.count)
+            guard let head = length.abiEncode(bits: 256) else {break}
+            let total = head+paddedData
+            return total
         case .array(type: let subType, length: let length):
-            guard !isPacked else {break}
             switch type.arraySize {
             case .dynamicSize:
                 guard length == 0 else {break}
@@ -393,7 +373,6 @@ public struct ABIEncoder {
                 break
             }
         case .tuple(types: let subTypes):
-            guard !isPacked else {break}
             var tails = [Data]()
             var heads = [Data]()
             guard let val = value as? [Any] else {break}
@@ -431,7 +410,6 @@ public struct ABIEncoder {
             let total = headsConcatenated + tailsConcatenated
             return total
         case .function:
-            guard !isPacked else {break}
             if let data = value as? Data {
                 return data.setLengthLeft(32)
             }
