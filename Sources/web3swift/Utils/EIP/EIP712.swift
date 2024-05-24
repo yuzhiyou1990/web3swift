@@ -17,9 +17,13 @@ public class EIP712 {
 }
 
 public struct EIP712Domain: EIP712Hashable {
+    public let name: String?
+    public let version: String?
     public let chainId: EIP712.UInt256?
     public let verifyingContract: EIP712.Address
-    public init(chainId: EIP712.UInt256?, verifyingContract: EIP712.Address) {
+    public init(name: String? = nil, version: String? = nil, chainId: EIP712.UInt256?, verifyingContract: EIP712.Address) {
+        self.name = name
+        self.version = version
         self.chainId = chainId
         self.verifyingContract = verifyingContract
     }
