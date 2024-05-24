@@ -128,6 +128,7 @@ fileprivate extension EIP712Hashable {
             case is EIP712.UInt256: typeName = "uint256"
             case is EIP712.Address: typeName = "address"
             case is EIP712.Bytes: typeName = "bytes"
+            case is String: typeName = "string"
             case let hashable as EIP712Hashable: typeName = hashable.name
             default: typeName = "\(type(of: value))".lowercased()
             }
