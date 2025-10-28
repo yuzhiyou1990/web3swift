@@ -7,6 +7,7 @@ import XCTest
 import CryptoSwift
 import BigInt
 import Web3Core
+import Secp256k1Swift
 
 @testable import web3swift
 

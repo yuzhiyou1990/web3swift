@@ -465,25 +465,25 @@ public extension ABIEncoder {
         if let v = value as? Bool {
             return Data(v ? [0b1] : [0b0])
         } else if let v = value as? Int {
-            return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 256)!)!
+            return ABIEncoder.convertToData(BigInt(exactly: v)!.abiEncode(bits: 256)!)!
         } else if let v = value as? Int8 {
-            return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 8))!
+            return ABIEncoder.convertToData(BigInt(exactly: v)!.abiEncode(bits: 8)!)!
         } else if let v = value as? Int16 {
-            return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 16)!)!
+            return ABIEncoder.convertToData(BigInt(exactly: v)!.abiEncode(bits: 16)!)!
         } else if let v = value as? Int32 {
-            return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 32)!)!
+            return ABIEncoder.convertToData(BigInt(exactly: v)!.abiEncode(bits: 32)!)!
         } else if let v = value as? Int64 {
-            return ABIEncoder.convertToData(BigInt(exactly: v)?.abiEncode(bits: 64)!)!
+            return ABIEncoder.convertToData(BigInt(exactly: v)!.abiEncode(bits: 64)!)!
         } else if let v = value as? UInt {
-            return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 256)!)!
+            return ABIEncoder.convertToData(BigUInt(exactly: v)!.abiEncode(bits: 256)!)!
         } else if let v = value as? UInt8 {
-            return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 8)!)!
+            return ABIEncoder.convertToData(BigUInt(exactly: v)!.abiEncode(bits: 8)!)!
         } else if let v = value as? UInt16 {
-            return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 16)!)!
+            return ABIEncoder.convertToData(BigUInt(exactly: v)!.abiEncode(bits: 16)!)!
         } else if let v = value as? UInt32 {
-            return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 32)!)!
+            return ABIEncoder.convertToData(BigUInt(exactly: v)!.abiEncode(bits: 32)!)!
         } else if let v = value as? UInt64 {
-            return ABIEncoder.convertToData(BigUInt(exactly: v)?.abiEncode(bits: 64)!)!
+            return ABIEncoder.convertToData(BigUInt(exactly: v)!.abiEncode(bits: 64)!)!
         } else if let data = ABIEncoder.convertToData(value) {
             return data
         }

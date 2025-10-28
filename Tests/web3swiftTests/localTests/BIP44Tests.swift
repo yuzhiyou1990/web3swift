@@ -5,6 +5,8 @@
 
 import XCTest
 import Web3Core
+import BIP39swift
+import BIP32Swift
 @testable import web3swift
 
 final class BIP44Tests: XCTestCase {
@@ -185,7 +187,7 @@ final class BIP44Tests: XCTestCase {
 
     private func rootNode() throws -> HDNode {
         let mnemonic = "fruit wave dwarf banana earth journey tattoo true farm silk olive fence"
-        let seed = try XCTUnwrap(BIP39.seedFromMmemonics(mnemonic, password: ""))
+        let seed = try XCTUnwrap(BIP39.seedFromMnemonics(mnemonic, password: ""))
         return try XCTUnwrap(HDNode(seed: seed))
     }
 }

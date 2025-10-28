@@ -75,7 +75,7 @@ public extension EIP712Hashable {
             guard result.count % 32 == 0 else { preconditionFailure("ABI encode error") }
             parameters.append(result)
         }
-        return Data(parameters.flatMap { $0.bytes }).sha3(.keccak256)
+        return Data(parameters.flatMap { $0.byteArray }).sha3(.keccak256)
     }
 }
 

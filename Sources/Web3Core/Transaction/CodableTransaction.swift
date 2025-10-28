@@ -6,6 +6,7 @@
 
 import Foundation
 import BigInt
+import Secp256k1Swift
 
 /// Structure capable of carying the parameters for any transaction type.
 /// While most fields in this struct are optional, they are not necessarily

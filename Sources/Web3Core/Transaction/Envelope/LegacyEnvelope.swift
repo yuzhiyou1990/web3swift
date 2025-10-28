@@ -6,6 +6,7 @@
 
 import Foundation
 import BigInt
+import Secp256k1Swift
 
 public struct LegacyEnvelope: AbstractEnvelope {
     public let type: TransactionType = .legacy

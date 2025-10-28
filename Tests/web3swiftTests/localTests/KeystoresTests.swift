@@ -6,6 +6,8 @@
 import XCTest
 import CryptoSwift
 import Web3Core
+import BIP39swift
+import BIP32Swift
 
 @testable import web3swift
 
@@ -16,7 +18,7 @@ class KeystoresTests: LocalTestCase {
         var entropy = Data.fromHex("00000000000000000000000000000000")!
         var phrase = BIP39.generateMnemonicsFromEntropy(entropy: entropy)
         XCTAssert(phrase == "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about")
-        var seed = BIP39.seedFromMmemonics(phrase!, password: "TREZOR")
+        var seed = BIP39.seedFromMnemonics(phrase!, password: "TREZOR")
         XCTAssert(
             seed?.toHexString()
                 ==
@@ -29,7 +31,7 @@ class KeystoresTests: LocalTestCase {
                 ==
                 "hamster diagram private dutch cause delay private meat slide toddler razor book happy fancy gospel tennis maple dilemma loan word shrug inflict delay length"
         )
-        seed = BIP39.seedFromMmemonics(phrase!, password: "TREZOR")
+        seed = BIP39.seedFromMnemonics(phrase!, password: "TREZOR")
         XCTAssert(
             seed?.toHexString()
                 ==
@@ -89,7 +91,7 @@ class KeystoresTests: LocalTestCase {
     func testHMAC() throws {
         let seed = Data.fromHex("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b")!
         let data = Data.fromHex("4869205468657265")!
-        let hmac = try! HMAC(key: seed.bytes, variant: HMAC.Variant.sha2(.sha512)).authenticate(data.bytes)
+        let hmac = try! HMAC(key: seed.byteArray, variant: HMAC.Variant.sha2(.sha512)).authenticate(data.byteArray)
         XCTAssert(
             Data(hmac).toHexString()
                 ==

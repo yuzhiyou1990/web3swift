@@ -7,6 +7,7 @@
 import Foundation
 import BigInt
 import Web3Core
+import Secp256k1Swift
 
 public struct Web3Signer {
     public static func signTX(transaction: inout CodableTransaction,

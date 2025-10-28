@@ -7,6 +7,8 @@
 import Foundation
 import XCTest
 import web3swift
+import Secp256k1Swift
+
 @testable import Web3Core
 
 // TODO: take more tests from https://github.com/Mrtenz/eip-712/blob/master/src/eip-712.test.ts

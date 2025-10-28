@@ -12,18 +12,19 @@ let package = Package(
         .library(name: "web3swift", targets: ["web3swift"])
     ],
     dependencies: [
-        .package(url: "https://github.com/attaswift/BigInt.git", .upToNextMinor(from: "5.4.0")),
-        .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", from: "1.5.1"),
-        .package(name: "secp256k1", url: "https://github.com/GigaBitcoin/secp256k1.swift", .upToNextMinor(from: "0.10.0"))
+        .package(url: "https://github.com/attaswift/BigInt.git", from: "5.7.0"),
+        .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", from: "1.9.0"),
+        .package(url: "https://github.com/mathwallet/BIP39swift.git", from: "2.0.1"),
+        .package(url: "https://github.com/mathwallet/Secp256k1Swift.git", from: "2.0.1")
     ],
     targets: [
         .target(
             name: "Web3Core",
-            dependencies: ["BigInt", "secp256k1", "CryptoSwift"]
+            dependencies: ["BigInt", "CryptoSwift", "BIP39swift", .product(name: "BIP32Swift", package: "Secp256k1Swift"), .product(name: "Secp256k1Swift", package: "Secp256k1Swift")]
         ),
         .target(
             name: "web3swift",
-            dependencies: ["Web3Core", "BigInt", "secp256k1"],
+            dependencies: ["Web3Core", .product(name: "Secp256k1Swift", package: "Secp256k1Swift")],
             resources: [
                 .copy("./Browser/browser.js"),
                 .copy("./Browser/browser.min.js"),

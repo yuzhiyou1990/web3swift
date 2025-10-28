@@ -5,6 +5,7 @@
 
 import Foundation
 import BigInt
+import Secp256k1Swift
 
 // EIP-2718 is an abstract envelope type
 // All typed transactions should inherit from this type and not AbstractEnvelope

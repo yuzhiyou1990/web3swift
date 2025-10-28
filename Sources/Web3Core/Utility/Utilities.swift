@@ -7,6 +7,7 @@
 
 import Foundation
 import BigInt
+import Secp256k1Swift
 
 public struct Utilities {
 

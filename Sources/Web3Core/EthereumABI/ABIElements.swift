@@ -207,7 +207,7 @@ extension ABI.Element.Function {
     public func encodeParameters(_ parameters: [Any]) -> Data? {
         guard parameters.count == inputs.count,
               let data = ABIEncoder.encode(types: inputs, values: parameters) else { return nil }
-        return methodEncoding + data
+        return selectorEncoded + data
     }
 }
 
@@ -372,7 +372,7 @@ extension ABI.Element {
 
 extension ABI.Element.Function {
     public func decodeInputData(_ rawData: Data) -> [String: Any]? {
-        return ABIDecoder.decodeInputData(rawData, methodEncoding: methodEncoding, inputs: inputs)
+        return ABIDecoder.decodeInputData(rawData, methodEncoding: selectorEncoded, inputs: inputs)
     }
 
     /// Decodes data returned by a function call.
@@ -471,12 +471,12 @@ extension ABI.Element.Function {
         /// 3) Data offset must be present. Hexadecimal value of `0000...0020` is 32 in decimal. Reasoning for `BigInt(...) == 32`.
         /// 4) `messageLength` is used to determine where message bytes end to decode string correctly.
         /// 5) The rest of the `data` must be 0 bytes or empty.
-        if data.bytes.count >= 100,
+        if data.byteArray.count >= 100,
            Data(data[data.startIndex ..< data.startIndex + 4]) == Data.fromHex("08C379A0"),
            BigInt(data[data.startIndex + 4 ..< data.startIndex + 36]) == 32,
            let messageLength = Int(Data(data[data.startIndex + 36 ..< data.startIndex + 68]).toHexString(), radix: 16),
-           let message = String(bytes: data.bytes[68..<(68+messageLength)], encoding: .utf8),
-           (68+messageLength == data.count || data.bytes[68+messageLength..<data.count].reduce(0) { $0 + $1 } == 0) {
+           let message = String(bytes: data.byteArray[68..<(68+messageLength)], encoding: .utf8),
+           (68+messageLength == data.count || data.byteArray[68+messageLength..<data.count].reduce(0) { $0 + $1 } == 0) {
             return ["_success": false,
                     "_failureReason": "`revert(string)` or `require(expression, string)` was executed.",
                     "_abortedByRevertOrRequire": true,

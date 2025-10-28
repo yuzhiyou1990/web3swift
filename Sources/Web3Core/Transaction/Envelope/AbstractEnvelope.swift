@@ -5,6 +5,7 @@
 // Support for EIP-2718 by Mark Loit 2022
 
 import Foundation
+import Secp256k1Swift
 import BigInt
 
 /*

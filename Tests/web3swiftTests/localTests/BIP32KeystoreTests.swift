@@ -8,6 +8,8 @@
 import Foundation
 import XCTest
 import Web3Core
+import BIP32Swift
+import BIP39swift
 
 @testable import web3swift
 

@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import BIP32Swift
 
 public protocol BIP44 {
     /// Derive an ``HDNode`` based on the provided path. The function will throw ``BIP44Error.warning``
